@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import moment from 'moment';
+import { allowedKeys, regexOnlyAlphabets, regexOnlyNumber, isEmpty, getCardType } from './utils'
 import './App.css';
 
 const defaultFormValues = {
@@ -16,9 +17,6 @@ const defaultErrorValues = {
   expirationDate:  {isValid:true, error: ''}
 } 
 
-const allowedKeys = [8,9,16,38,40];
-const regexOnlyAlphabets = /^([a-zA-Z _-]+)$/;
-const regexOnlyNumber = /^([0-9]+)$/;
 
 const App = () => {
   const mainError = useRef(null);
@@ -30,17 +28,13 @@ const App = () => {
 
   const setErrors = newValues => updateErrors({...currentErrors, ...newValues});
 
-  const clearString = val => {return val.replace(/\s+/g, '')};
-
-  const isEmpty = val => clearString(val).length === 0 ;
-
   const validateCardHolderName = val => {
     let isValid = !isEmpty(val) && val.length > 5 &&  regexOnlyAlphabets.test(val);
     let error = isValid ? '': 'Invalid name';
     return { isValid, error };
   }
   const validateCardNumber = val => {
-    let isValid = !isEmpty(val) && val.length === 16 &&  regexOnlyNumber.test(val);
+    let isValid = !isEmpty(val) && val.length === 16 &&  regexOnlyNumber.test(val) && getCardType(val) !== "Unknown card";
     let error = isValid ? '': 'Invalid card number';
     return { isValid, error };    
   }
@@ -87,7 +81,7 @@ const App = () => {
   return (
     <div className="App">
       <h1>Welcome to DNB form Assignment</h1>
-      <div ref={mainError} className="mainError"> Please enter valid data</div>
+      <div ref={mainError} className="mainError" role="alert" aria-live="assertive"> Please enter valid data</div>
       <form onSubmit={handleSubmit}>
         <div className="field">
           <label htmlFor="cardHolderName" className="fieldLabel">
@@ -114,6 +108,7 @@ const App = () => {
           </label>
           <span className="inputContainer">
             { !currentErrors.cardNumber.isValid ? <span className="errormessage" id="cardNumberError">{currentErrors.cardNumber.error}</span> : null }
+            <span>
             <input 
               id="cardNumber"
               className="fieldInput"
@@ -131,6 +126,8 @@ const App = () => {
               aria-describedby="cardNumberError"
               aria-invalid={!currentErrors.cardNumber.isValid}
             />
+            {currentValues.cardNumber.length > 0 ?<span aria-live="polite" className="cardType">{getCardType(currentValues.cardNumber)}</span>: null}
+            </span>
           </span>
         </div>
         <div className="field">
