@@ -1,0 +1,67 @@
+.App {
+  text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.field{
+  margin-bottom: 1rem;
+  -ms-flex-align: start;
+  -webkit-box-align: start;
+  align-items: flex-start;
+}
+
+.fieldLabel{
+  display: inline-block;
+  width: auto;
+}
+
+.inputContainer{
+  margin-left: 1rem;
+  -ms-flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  width: auto;
+  display: inline-flex;
+}
+
+.errormessage{
+  -webkit-box-ordinal-group: 3;
+  order: 2;
+  margin-top: .5rem;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  display: flex;
+  color: red;
+}
+
+.fieldInput{
+  display: -ms-inline-flexbox;
+  display: -webkit-inline-box;
+  display: inline-flex;
+  -ms-flex-align: center;
+  -webkit-box-align: center;
+}
+
+.expirydateInput{
+  max-width: 2rem;
+}
+
+.expirydateSlash{
+  margin: 0 0.5rem;
+}
+
+.mainError{
+  margin-bottom: 2rem;
+  color: red;
+  font-weight: bold;
+  display: none;
+}
